@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sent message</title>
+</head>
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #27282b;
+  color: rgb(173, 159, 159);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+input {
+  width: 300px;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: none;
+}
+button {
+  width: 300px;
+  padding: 12px;
+  background: #000000;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.button:hover {
+  background: #b5b0b0;
+  color: #000;
+}
+#msg {
+  margin-bottom: 20px;
+  background-color: rgb(86, 88, 88);
+}
+
+</style>
+<body>
+<h2>Message Sent!</h2>
+<input type="text" id="msg" placeholder="Type your message here">
+<button onclick="sendMessage()">Send </button>
+    <script>
+// PAGE SWITCH
+function show(page) {
+  document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+  document.getElementById(page).classList.add("active");
+}
+
+// TELEGRAM SEND
+function sendMessage() {
+  
+  let msg = document.getElementById("msg").value;
+
+  let text = "📩 New Message\n\n"
+  
+    + "Message: " + msg;
+
+  // ⚠️ REPLACE THESE
+  let token = "8002944908:AAG4yRUJ5NwZPZHvY4jYC6kknlujOKRktDs";
+  let chatId = "8201958480";
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: text
+    })
+  })
+  .then(() => {
+    document.getElementById("status").innerText = "Message Sent ✅";
+  })
+  .catch(() => {
+    document.getElementById("status").innerText = "Error ❌";
+  });
+}
+</script>
+</body>
+</html>
